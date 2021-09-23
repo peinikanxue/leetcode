@@ -1,25 +1,22 @@
-from typing import List
+#
+# @lc app=leetcode.cn id=198 lang=python3
+#
+# [198] 打家劫舍
+#
 
+# @lc code=start
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        dp = [0]
-        if nums == []:
-            return 0
-        dp.append(nums[0])
+        dp = nums   # 可以直接原地处理
+        
+        if len(nums) >= 2:
+            dp[1] = max(dp[0], dp[1])
+        if len(nums) >= 3:
+            dp[1] = max(dp[0], dp[1])
+            dp[2] = max(dp[1], dp[0] + dp[2])
+        
+        for i in range(3, len(nums)):
+            dp[i] = max(dp[i-2]+nums[i], dp[i-3]+nums[i])
+        return max(dp)
+# @lc code=end
 
-        i = 0
-        for i in range(2, len(nums)+1):
-            dp.append(max(dp[i-1], dp[i-2]+nums[i-1]))
-        return dp[-1]
-
-
-if __name__ == "__main__":
-    nums_list = [
-        [1,2,3,1],
-        [2,7,9,3,1],
-        [2,1,1,2],
-        [2,4,8,9,9,3],
-    ]
-
-    for nums in nums_list:
-        print(Solution().rob(nums))
