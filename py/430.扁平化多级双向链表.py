@@ -17,6 +17,23 @@ class Node:
 
 class Solution:
     def flatten(self, head: 'Node') -> 'Node':
+        def enter_child(p):
+            while p:
+                if p.child:
+                    tmp_next = p.next
+                    p.child.prev = p
+                    p.next = p.child
+                    p.child = None
+                    last_p = enter_child(p.next)
+                    last_p.next = tmp_next
+                    if tmp_next:
+                        tmp_next.prev = last_p
+                if p.next:
+                    p = p.next
+                else:
+                    return p
+        enter_child(head)
+        return head
         
 # @lc code=end
 
